@@ -19,4 +19,4 @@ def test_dynamic_loading():
     assert hello_element.text == "Hello World!", (
         f"Текст не совпадает. Получено: {hello_element.text}"
     )
-    driver.quit()
+    driver.quit() 

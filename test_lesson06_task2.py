@@ -24,7 +24,7 @@ def test_session_storage_auth():
     # 1. Откройте страницу https://gitflic.ru
     driver.get("https://gitflic.ru/")
 
-    # 2. Установите cookie пользователя 1
+    # 2. Установите cookie пользователя 1 
     for cookie in user1_cookies:
         driver.add_cookie(cookie)
 
@@ -63,5 +63,5 @@ def test_session_storage_auth():
     assert user1_url != user2_url, (
         f"Ошибка: URL совпали. User1: {user1_url}, User2: {user2_url}"
     )
-    print("Проверка пройдена: URL пользователей различаются.")
+    print("Проверка пройдена: URL пользователей различаются. ")
     driver.quit()
