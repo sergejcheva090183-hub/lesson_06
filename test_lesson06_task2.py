@@ -1,4 +1,3 @@
-import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -21,47 +20,52 @@ def test_session_storage_auth():
         'domain': '.gitflic.ru'
     }]
 
-    # 1. Откройте страницу https://gitflic.ru
-    driver.get("https://gitflic.ru/")
+    try:
+        # 1. Откройте страницу https://gitflic.ru
+        driver.get("https://gitflic.ru/")
 
-    # 2. Установите cookie пользователя 1
-    for cookie in user1_cookies:
-        driver.add_cookie(cookie)
+        # 2. Установите cookie пользователя 1
+        for cookie in user1_cookies:
+            driver.add_cookie(cookie)
 
-    # 3. Обновите страницу
-    driver.refresh()
-    time.sleep(2)
+        # 3. Обновите страницу
+        driver.refresh()
+        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
 
-    # 4. Перейдите на страницу пользователя 1
-    driver.get("https://gitflic.ru/user/shelena2010")
+        # 4. Перейдите на страницу пользователя 1
+        driver.get("https://gitflic.ru/user/shelena2010")
 
-    # 5. Сохраните текущий URL
-    wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-    user1_url = driver.current_url
-    print(f"https://gitflic.ru/user/shelena2010: {user1_url}")
+        # 5. Сохраните текущий URL
+        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+        user1_url = driver.current_url
+        print(f"https://gitflic.ru/user/shelena2010: {user1_url}")
 
-    # 6. Разлогиньтесь (очистите куки)
-    driver.delete_all_cookies()
+        # 6. Разлогиньтесь (очистите куки)
+        driver.delete_all_cookies()
 
-    # 7. Установите cookie пользователя 2
-    for cookie in user2_cookies:
-        driver.add_cookie(cookie)
+        # 7. Установите cookie пользователя 2
+        driver.get("https://gitflic.ru/")  # Исправлена опечатка в URL
+        for cookie in user2_cookies:
+            driver.add_cookie(cookie)
 
-    # 8. Обновите страницу
-    driver.refresh()
-    time.sleep(2)
+        # 8. Обновите страницу
+        driver.refresh()
+        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
 
-    # 9. Перейдите на страницу пользователя 2
-    driver.get("https://gitflic.ru/user/shelena2012")
+        # 9. Перейдите на страницу пользователя 2
+        driver.get("https://gitflic.ru/user/shelena2012")
 
-    # 10. Сохраните текущий URL
-    wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-    user2_url = driver.current_url
-    print(f"https://gitflic.ru/user/shelena2012 : {user2_url}")
+        # 10. Сохраните текущий URL
+        wait.until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+        user2_url = driver.current_url
+        print(f"https://gitflic.ru/user/shelena2012: {user2_url}")
 
-    # 11. Проверьте, что URL для пользователя 1 и пользователя 2 различаются
-    assert user1_url != user2_url, (
-        f"Ошибка: URL совпали. User1: {user1_url}, User2: {user2_url}"
-    )
-    print("Проверка пройдена: URL пользователей различаются.")
-    driver.quit()
+        # 11. Проверьте, что URL для пользователя 1 и пользователя 2 различаются
+        assert user1_url != user2_url, (
+            f"Ошибка: URL совпали. User1: {user1_url}, User2: {user2_url}"
+        )
+        print("Проверка пройдена: URL пользователей различаются.")
+
+    finally:
+        driver.quit()
+        
